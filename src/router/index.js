@@ -3,6 +3,7 @@ import Vue from 'vue'
 
 import Login from '@/views/login'
 import Home from '@/views/home'
+import Welcome from '@/views/welcome'
 
 Vue.use(VueRouter)
 
@@ -17,7 +18,14 @@ const router = new VueRouter({
     // 首页规则
     {
       path: '/',
-      component: Home
+      component: Home,
+      children: [
+        // 欢迎页面
+        {
+          path: '/',
+          component: Welcome
+        }
+      ]
     }
   ]
 })
