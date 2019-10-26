@@ -79,6 +79,12 @@ export default {
         if (valid) {
           // 发送请求  后台验证手机号和验证码
           console.log('ok')
+          this.$http.post('authorizations', this.loginForm).then(res => {
+            // 成功后跳转
+            this.$router.push('/')
+          }).catch(err => {
+            console.log(err)
+          })
         }
       })
     }
