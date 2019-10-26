@@ -1,22 +1,34 @@
 <template>
   <div class="container">
     <el-card>
+      <!-- 卡片 -->
       <img src="../../assets/logo_index.png" style="width:200px" alt="">
-      <el-form ref="form" :model="loginForm">
-        <el-form-item>
+      <!-- 登陆模块 -->
+      <el-form ref="form" :model="loginForm" :rules="loginRules">
+
+        <!-- 手机号 -->
+        <el-form-item prop="mobile">
           <el-input v-model="loginForm.mobile" placeholder="请输入手机号"></el-input>
         </el-form-item>
+
+        <!-- 验证码 -->
         <el-form-item>
           <el-input
             v-model="loginForm.code"
             style="width:310px;margin-right:10px"
             placeholder="请输入验证码"
           ></el-input>
+
+          <!-- 验证码按钮 -->
           <el-button>发送验证码</el-button>
         </el-form-item>
+
+        <!-- 勾选框 -->
         <el-form-item>
           <el-checkbox v-model="checked">我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
+
+        <!-- 登陆按钮 -->
         <el-form-item>
           <el-button :disabled="!checked" type="primary" style="width:100%">立即登陆</el-button>
         </el-form-item>
@@ -33,6 +45,12 @@ export default {
       loginForm: {
         mobile: '',
         code: ''
+      },
+      // 登陆模块校验规则
+      loginRules: {
+        // 手机号校验规则
+        mobile: [{ required: true, message: '请输入手机号', trigger: 'blur' }
+        ]
       }
     }
   }
