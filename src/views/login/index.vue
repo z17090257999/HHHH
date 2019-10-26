@@ -12,7 +12,7 @@
         </el-form-item>
 
         <!-- 验证码 -->
-        <el-form-item>
+        <el-form-item prop="code">
           <el-input
             v-model="loginForm.code"
             style="width:310px;margin-right:10px"
@@ -50,6 +50,8 @@ export default {
       loginRules: {
         // 手机号校验规则
         mobile: [{ required: true, message: '请输入手机号', trigger: 'blur' }
+        ],
+        code: [{ required: true, message: '请输入验证码', trigger: 'blur' }
         ]
       }
     }
