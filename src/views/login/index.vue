@@ -41,6 +41,16 @@
 <script>
 export default {
   data () {
+    // 校验手机号函数
+    const checkMobile = (rule, value, callback) => {
+      // 校验逻辑判断是否成功
+      // 手机号格式：1开头 3-9 9个数字结尾
+      if (/^1[3-9]\d{9}$/.test(value)) {
+        callback()
+      } else {
+        callback(new Error('手机号格式不对，请重新输入'))
+      }
+    }
     return {
       checked: true,
       loginForm: {
@@ -51,7 +61,9 @@ export default {
       loginRules: {
         // 手机号校验规则
         mobile: [
-          { required: true, message: '请输入手机号', trigger: 'blur' }
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          // 自定义校验函数
+          { validator: checkMobile, trigger: 'blur' }
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
