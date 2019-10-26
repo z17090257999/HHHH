@@ -1,10 +1,11 @@
 <template>
   <div class="container">
+    <!-- 登陆卡片 -->
     <el-card>
-      <!-- 卡片 -->
+      <!-- logo -->
       <img src="../../assets/logo_index.png" style="width:200px" alt="">
       <!-- 登陆模块 -->
-      <el-form ref="form" :model="loginForm" :rules="loginRules">
+      <el-form ref="form" :model="loginForm" :rules="loginRules" status-icon>
 
         <!-- 手机号 -->
         <el-form-item prop="mobile">
@@ -49,9 +50,12 @@ export default {
       // 登陆模块校验规则
       loginRules: {
         // 手机号校验规则
-        mobile: [{ required: true, message: '请输入手机号', trigger: 'blur' }
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' }
         ],
-        code: [{ required: true, message: '请输入验证码', trigger: 'blur' }
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { len: 6, message: '请输入六位验证码', trigger: 'blur' }
         ]
       }
     }
