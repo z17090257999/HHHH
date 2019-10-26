@@ -82,8 +82,13 @@ export default {
           this.$http.post('authorizations', this.loginForm).then(res => {
             // 成功后跳转
             this.$router.push('/')
-          }).catch(err => {
-            console.log(err)
+          }).catch(() => {
+            // this.$message({
+            //   showClose: true,
+            //   message: '请输入正确的手机号或验证码',
+            //   type: 'error'
+            // })
+            this.$message.error('请输入正确的手机号或验证码')
           })
         }
       })
