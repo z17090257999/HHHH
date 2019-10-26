@@ -5,7 +5,7 @@
       <!-- logo -->
       <img src="../../assets/logo_index.png" style="width:200px" alt="">
       <!-- 登陆模块 -->
-      <el-form ref="form" :model="loginForm" :rules="loginRules" status-icon>
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" status-icon>
 
         <!-- 手机号 -->
         <el-form-item prop="mobile">
@@ -31,7 +31,7 @@
 
         <!-- 登陆按钮 -->
         <el-form-item>
-          <el-button :disabled="!checked" type="primary" style="width:100%">立即登陆</el-button>
+          <el-button @click="login" :disabled="!checked" type="primary" style="width:100%">立即登陆</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -70,6 +70,17 @@ export default {
           { len: 6, message: '请输入六位验证码', trigger: 'blur' }
         ]
       }
+    }
+  },
+  methods: {
+    login () {
+      // 获取表单组件实例   ==调用校验函数
+      this.$refs['loginForm'].validate((valid) => {
+        if (valid) {
+          // 发送请求  后台验证手机号和验证码
+          console.log('ok')
+        }
+      })
     }
   }
 }
