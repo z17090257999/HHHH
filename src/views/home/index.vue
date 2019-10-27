@@ -2,15 +2,17 @@
   <!-- 首页 -->
   <el-container class="container">
     <!-- 侧边栏 -->
-    <el-aside width="200px">
+    <el-aside :width="isOpen?'200px':'64px'">
       <!-- logo -->
-      <div class="logo"></div>
+      <div class="logo" :class="{s_logo:!isOpen}"></div>
       <el-menu
         default-active="1"
         background-color="#0c233d"
         text-color="#fff"
         active-text-color="#ffd04b"
+        :collapse="!isOpen"
         style="border-right:none"
+        :collapse-transition='false'
       >
         <el-menu-item index="1">
           <i class="el-icon-s-home"></i>
@@ -46,7 +48,7 @@
     <el-container>
       <el-header>
         <!-- 图标 -->
-        <span class="el-icon-s-unfold"></span>
+        <span class="el-icon-s-unfold" @click="toggleMenu"></span>
         <!-- 文字 -->
         <span>毛里求斯乔奶奶国际旅游有限公司</span>
         <!-- 用户下拉组件 -->
@@ -72,7 +74,19 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      isOpen: true
+    }
+  },
+  methods: {
+    toggleMenu () {
+      // 切换左边栏的展开与收起
+      this.isOpen = !this.isOpen
+    }
+  }
+}
 </script>
 
 <style scoped lang='less'>
@@ -115,10 +129,15 @@ export default {}
 .el-aside {
   background-color: #0c233d;
   color: rgb(133, 151, 185);
-  .logo{
+  .logo {
     width: 100%;
     height: 60px;
-    background:  #0c233d url(../../assets/logo_admin.png) no-repeat center/140px auto
+    background: #0c233d url(../../assets/logo_admin.png) no-repeat center/140px
+      auto;
+  }
+  .s_logo{
+    background-image: url(../../assets/logo_admin_01.png);
+    background-size: 35px auto;
   }
 }
 // 内容区域
@@ -127,5 +146,6 @@ export default {}
   color: #333;
   text-align: center;
   line-height: 160px;
+  padding: 0;
 }
 </style>
