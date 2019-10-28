@@ -49,7 +49,9 @@
     <el-container>
       <el-header>
         <!-- 图标 -->
-        <span class="el-icon-s-unfold" @click="toggleMenu"></span>
+        <!-- <span class="el-icon-s-unfold" @click="toggleMenu"></span> -->
+        <!-- 侧边栏箭头方向随者状态变化 -->
+        <span class="el-icon-s-unfold" :class="{'el-icon-s-fold':isOpen}" @click="toggleMenu"></span>
         <!-- 文字 -->
         <span>毛里求斯乔奶奶国际旅游有限公司</span>
         <!-- 用户下拉组件 -->
