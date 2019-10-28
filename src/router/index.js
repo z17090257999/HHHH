@@ -1,5 +1,6 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
+import local from '@/utils/local'
 
 import Login from '@/views/login'
 import Home from '@/views/home'
@@ -10,6 +11,7 @@ import NotFound from '@/views/404'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
+  // 去地址栏“#”
   mode: 'history',
   routes: [
     // 登陆规则
@@ -35,6 +37,23 @@ const router = new VueRouter({
       component: NotFound
     }
   ]
+})
+// 添加路由导航守卫（前置导航守卫）
+router.beforeEach((to, from, next) => {
+  // 每次跳转路由前触发
+  // to 跳转到目标路由
+  // from 从哪跳转过来的路由
+  // next 下一步方法    next()放行   next('/login')跳转到登陆页面
+  const user = local.getUser()
+  if (user && user.token) {
+    next()
+  } else {
+    if (to.path === '/login') {
+      next()
+    } else {
+      next('/login')
+    }
+  }
 })
 
 export default router

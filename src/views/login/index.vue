@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     login () {
-      // 获取表单组件实例   ==调用校验函数
+      // 获取表单组件实例 --->调用校验函数
       this.$refs['loginForm'].validate((valid) => {
         if (valid) {
           // 发送请求  后台验证手机号和验证码
