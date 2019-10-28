@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     // 校验手机号函数
@@ -52,6 +53,7 @@ export default {
       }
     }
     return {
+      // 勾选协议才能登陆
       checked: true,
       loginForm: {
         mobile: '',
@@ -81,6 +83,8 @@ export default {
           console.log('ok')
           this.$http.post('authorizations', this.loginForm).then(res => {
             // 成功后跳转
+            // 保存用户信息（token）
+            local.setUser(res.data.data)
             this.$router.push('/')
           }).catch(() => {
             // this.$message({
