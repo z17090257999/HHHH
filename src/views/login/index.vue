@@ -77,23 +77,27 @@ export default {
   methods: {
     login () {
       // 获取表单组件实例 --->调用校验函数
-      this.$refs['loginForm'].validate((valid) => {
+      this.$refs['loginForm'].validate(async valid => {
         if (valid) {
           // 发送请求  后台验证手机号和验证码
           console.log('ok')
-          this.$http.post('authorizations', this.loginForm).then(res => {
-            // 成功后跳转
-            // 保存用户信息（token）
-            local.setUser(res.data.data)
-            this.$router.push('/')
-          }).catch(() => {
-            // this.$message({
-            //   showClose: true,
-            //   message: '请输入正确的手机号或验证码',
-            //   type: 'error'
-            // })
-            this.$message.error('请输入正确的手机号或验证码')
-          })
+          // this.$http.post('authorizations', this.loginForm).then(res => {
+          //   // 成功后跳转
+          //   // 保存用户信息（token）
+          //   local.setUser(res.data.data)
+          //   this.$router.push('/')
+          // }).catch(() => {
+          //   // this.$message({
+          //   //   showClose: true,
+          //   //   message: '请输入正确的手机号或验证码',
+          //   //   type: 'error'
+          //   // })
+          //   this.$message.error('请输入正确的手机号或验证码')
+          // })
+          // promise写法
+          const { data: { data } } = await this.$http.post('authorizations', this.loginForm)
+          local.setUser(data)
+          this.$router.push('/')
         }
       })
     }
