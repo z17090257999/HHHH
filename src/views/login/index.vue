@@ -101,7 +101,7 @@ export default {
             const { data: { data } } = await this.$http.post('authorizations', this.loginForm)
             local.setUser(data)
             this.$router.push('/')
-          } catch {
+          } catch (e) {
             this.$message.error('手机号码或验证码错误')
           }
         }
