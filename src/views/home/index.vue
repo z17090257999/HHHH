@@ -56,15 +56,15 @@
         <!-- 文字 -->
         <span>毛里求斯乔奶奶国际旅游有限公司</span>
         <!-- 用户下拉组件 -->
-        <el-dropdown class="dropdown">
+        <el-dropdown class="dropdown" @command="handelClick">
           <span class="el-dropdown-link">
             <img class="userIcon" :src="userInFo.photo" alt />
             <span class="userName">{{userInFo.name}}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登陆</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" command="setting">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" command="logout">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -96,6 +96,22 @@ export default {
     toggleMenu () {
       // 切换左边栏的展开与收起
       this.isOpen = !this.isOpen
+    },
+    // 只绑定click事件，该事件不会触发
+    // 给组件绑定事件，如果事件不支持，事件不会触发
+    // 把事件绑定在组件解析后的原生dom上
+    // 事件修饰符：prevent once stop     native意思是把事件绑定在原生dom上
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      this.$router.push('/login')
+    },
+    handelClick (command) {
+      // command 值 setting|logout
+      // this[setting]() === this.setting()
+      // this[logout]() === this.logout()
+      this[command]()
     }
   }
 }
