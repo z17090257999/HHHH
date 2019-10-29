@@ -58,8 +58,8 @@
         <!-- 用户下拉组件 -->
         <el-dropdown class="dropdown">
           <span class="el-dropdown-link">
-            <img class="userIcon" src="../../assets/avatar.jpg" alt />
-            <span class="userName">用户</span>
+            <img class="userIcon" :src="userInFo.photo" alt />
+            <span class="userName">{{userInFo.name}}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -78,11 +78,19 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     return {
-      isOpen: true
+      isOpen: true,
+      userInFo: {}
     }
+  },
+  created () {
+    // 设置用户信息
+    const user = local.getUser() || {}
+    this.userInFo.name = user.name
+    this.userInFo.photo = user.photo
   },
   methods: {
     toggleMenu () {
