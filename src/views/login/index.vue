@@ -94,10 +94,16 @@ export default {
           //   // })
           //   this.$message.error('请输入正确的手机号或验证码')
           // })
+
           // promise写法
-          const { data: { data } } = await this.$http.post('authorizations', this.loginForm)
-          local.setUser(data)
-          this.$router.push('/')
+          // 当一段代码不能保证一定没有报错  try {} catch (e) {} 捕获处理异常
+          try {
+            const { data: { data } } = await this.$http.post('authorizations', this.loginForm)
+            local.setUser(data)
+            this.$router.push('/')
+          } catch {
+            this.$message.error('手机号码或验证码错误')
+          }
         }
       })
     }
