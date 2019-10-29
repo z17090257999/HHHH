@@ -13,8 +13,9 @@
         :collapse="!isOpen"
         style="border-right:none"
         :collapse-transition='false'
-        router='true'
+        router
       >
+      <!-- 👆router = true的话会报错，但是并不影响网页运行， -->
         <el-menu-item index="/">
           <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
