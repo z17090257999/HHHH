@@ -7,6 +7,8 @@ import Home from '@/views/home'
 import Welcome from '@/views/welcome'
 // 4导入404
 import NotFound from '@/views/404'
+// 组件与路由
+import Article from '@/views/article/article'
 
 Vue.use(VueRouter)
 
@@ -28,6 +30,11 @@ const router = new VueRouter({
         {
           path: '/',
           component: Welcome
+        },
+        // 内容管理
+        {
+          path: '/article',
+          component: Article
         }
       ]
     },

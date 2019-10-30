@@ -6,7 +6,7 @@
       <!-- logo -->
       <div class="logo" :class="{s_logo:!isOpen}"></div>
       <el-menu
-        default-active="/"
+        :default-active="$route.path"
         background-color="#0c233d"
         text-color="#fff"
         active-text-color="#ffd04b"
