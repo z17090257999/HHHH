@@ -1,5 +1,5 @@
 // 入口文件
-// 1、创建根实例  #app  --->  pubulic下的index.html中的app部分
+// 1、创建根实例  #app  --->  方法下的index.html中的app部分
 // 2、依赖项目需要的全局资源
 
 import Vue from 'vue'
@@ -11,6 +11,12 @@ import App from './App.vue'
 import router from '@/router'
 
 import axios from '@/api'
+
+// import MyBread from '@/components/my-bread'
+// Vue.component('my-bread', MyBread)
+import plugin from '@/components'
+Vue.use(plugin)
+
 // 全局挂载axios
 Vue.prototype.$http = axios
 

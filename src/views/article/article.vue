@@ -3,10 +3,7 @@
     <!-- 筛选添加布局 -->
     <el-card>
       <div slot="header">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>内容管理</el-breadcrumb-item>
-        </el-breadcrumb>
+        <my-bread>内容管理</my-bread>
       </div>
       <!-- 表单 -->
       <el-form label-width="80px" size="small">
@@ -25,10 +22,10 @@
             <el-select v-model="reqParams.channel_id" placeholder="请选择">
               <el-option
                 v-for="item in channelOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
             </el-select>
           </template>
         </el-form-item>
@@ -39,19 +36,63 @@
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
-            end-placeholder="结束日期">
-          </el-date-picker>
+            end-placeholder="结束日期"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary">筛选</el-button>
         </el-form-item>
       </el-form>
     </el-card>
+    <!-- 筛选结果布局 -->
+    <!-- <page-one> -->
+    <!-- scope 意思：作用域 ， 作用：搜集该插槽传入的所有数据-->
+    <!-- <div slot="content" slot-scope="scope">内容{{scope.pn}}</div> -->
+    <!-- v-slot:插槽名称="接收数据的变量名" -->
+    <!-- <template v-slot:content="scope">{{scope.pn}}</template> -->
+    <!-- <div slot="footer">底部</div> -->
+    <!-- </page-one> -->
+    <el-card style="margin-top:20px">
+      <div slot="header">
+        <strong>共筛选到 0 条结果</strong>
+      </div>
+      <el-table :data="articles" style="width: 100%" :row-class-name="tableRowClassName">
+        <el-table-column prop="date" label="封面" width="180"></el-table-column>
+        <el-table-column prop="name" label="标题" width="180"></el-table-column>
+        <el-table-column prop="address" label="状态"></el-table-column>
+        <el-table-column prop="date" label="发布时间" width="180"></el-table-column>
+        <el-table-column prop="date" label="操作" width="180"></el-table-column>
+      </el-table>
+      <el-pagination
+        style="margin-top:10px"
+        background
+        layout="prev, pager, next"
+        :total="1000">
+      </el-pagination>
+    </el-card>
   </div>
 </template>
 
 <script>
+// import PageOne from '@/test/page'
 export default {
+  // components: { PageOne },
+  methods: {
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex === 1) {
+        return 'warning-row'
+      } else if (rowIndex === 3) {
+        return 'success-row'
+      }
+      return ''
+    },
+    // 获取频道选项数据
+    async getChannelOptions () {
+      const { data: { data } } = await this.$http.get('channels')
+      // 赋值频道下拉选项
+      this.channelOptions = data.channels
+    }
+  },
   data () {
     return {
       // 请求参数提交给后端的筛选对象
@@ -63,15 +104,25 @@ export default {
         end_pubdate: null
       },
       // 频道选项数据
-      channelOptions: [
-        { value: 1, label: 'wawngqianhzao' }
-      ],
+      channelOptions: [{ value: 1, label: 'shi' }],
       // 日期数组
-      dateArr: []
+      dateArr: [],
+      // 筛选结果数据  文章列表
+      articles: []
     }
+  },
+  // 组件初始化
+  created () {
+    this.getChannelOptions()
   }
 }
 </script>
 
 <style scoped lang='less'>
+.el-table .warning-row {
+  background: oldlace;
+}
+.el-table .success-row {
+  background: #f0f9eb;
+}
 </style>

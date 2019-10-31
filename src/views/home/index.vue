@@ -170,10 +170,6 @@ export default {
 }
 // 内容区域
 .el-main {
-  background-color: #e9eef3;
-  color: #333;
-  text-align: center;
-  line-height: 160px;
   padding: 0;
 }
 </style>
