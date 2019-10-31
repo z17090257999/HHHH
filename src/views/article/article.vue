@@ -32,6 +32,8 @@
         <el-form-item label="日期">
           <!-- v-model 绑定的数组[起始时间,结束时间] -->
           <el-date-picker
+            @change="changeDate"
+            value-format="yyyy-MM-dd"
             v-model="dateArr"
             type="daterange"
             range-separator="至"
@@ -147,6 +149,18 @@ export default {
       // 根据新的页码和当前的筛选条件 重新查询数据即可
       this.reqParams.page = newPage
       this.getArticles()
+    },
+    // 选择日期触发事件的函数
+    changeDate (dateArr) {
+      // dateArr 的数据格式：[date，date]
+      // 后端需要的格式是字符串格式
+      if (dateArr) {
+        this.reqParams.begin_pubdate = dateArr[0]
+        this.reqParams.end_pubdate = dateArr[1]
+      } else {
+        this.reqParams.begin_pubdate = null
+        this.reqParams.end_pubdate = null
+      }
     },
     // 筛选查询
     search () {
