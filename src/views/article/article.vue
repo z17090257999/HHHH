@@ -57,7 +57,21 @@
         <strong>共筛选到 0 条结果</strong>
       </div>
       <el-table :data="articles" style="width: 100%" :row-class-name="tableRowClassName">
-        <el-table-column prop="cover.images[0]" label="封面" width="180"></el-table-column>
+        <el-table-column label="封面" width="180">
+          <template slot-scope="scope">
+            <!-- 第一张封面图 -->
+            <!-- <img :src="scope.row.cover.images[0]" alt="" :fit="contain"> -->
+            <el-image
+              style="width: 100px; height: 100px"
+              :src="scope.row.cover.images[0]"
+              :fit="contain">
+              <div slot="error">
+                <!-- 提醒加载失败的默认图片 -->
+              <img src="../../assets/error.gif" width="100" height="100">
+              </div>
+              </el-image>
+          </template>
+        </el-table-column>
         <el-table-column prop="title" label="标题" width="180"></el-table-column>
         <el-table-column prop="status" label="状态"></el-table-column>
         <el-table-column prop="pubdate" label="发布时间" width="180"></el-table-column>
