@@ -54,7 +54,7 @@
     <!-- </page-one> -->
     <el-card style="margin-top:20px">
       <div slot="header">
-        <strong>共筛选到 0 条结果</strong>
+        <strong>共筛选到 {{total}} 条结果</strong>
       </div>
       <el-table :data="articles" style="width: 100%" :row-class-name="tableRowClassName">
         <el-table-column label="封面" width="180">
@@ -62,19 +62,19 @@
             <!-- 第一张封面图 -->
             <!-- <img :src="scope.row.cover.images[0]" alt="" :fit="contain"> -->
             <el-image
-              style="width: 100px; height: 100px"
+              style="width: 120px; height: 100px"
               :src="scope.row.cover.images[0]"
               :fit="contain">
               <div slot="error">
                 <!-- 提醒加载失败的默认图片 -->
-              <img src="../../assets/error.gif" width="100" height="100">
+              <img src="../../assets/error.gif" width="120" height="100">
               </div>
               </el-image>
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="标题" width="180"></el-table-column>
+        <el-table-column prop="title" label="标题" width="800px"></el-table-column>
         <el-table-column prop="status" label="状态">
-          <template slot-scope="scope">
+          <template slot-scope="scope" >
             <el-tag v-if="scope.row.status===0" type="info">草稿</el-tag>
             <el-tag v-if="scope.row.status===1">待审核</el-tag>
             <el-tag v-if="scope.row.status===2" type="success">审核通过</el-tag>
@@ -133,8 +133,8 @@ export default {
       } = await this.$http.get('articles', { params: this.reqParams })
       // 赋值文章列表依赖数据
       this.articles = data.results
-      // 赋值文章列表依赖数据
-      this.articles = data.results
+      // 赋值文章总条数依赖数据
+      this.total = data.total_count
     }
   },
   data () {
@@ -155,7 +155,9 @@ export default {
       // 日期数组
       dateArr: [],
       // 筛选结果数据  文章列表
-      articles: []
+      articles: [],
+      // 文章总条数
+      total: 0
     }
   }
 }
