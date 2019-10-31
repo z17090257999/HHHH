@@ -40,7 +40,7 @@
           ></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">筛选</el-button>
+          <el-button type="primary" @click="search">筛选</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -56,7 +56,7 @@
       <div slot="header">
         <strong>共筛选到 {{total}} 条结果</strong>
       </div>
-      <el-table :data="articles" style="width: 100%" :row-class-name="tableRowClassName">
+      <el-table :data="articles">
         <el-table-column label="封面" width="180">
           <template slot-scope="scope">
             <!-- 第一张封面图 -->
@@ -64,7 +64,7 @@
             <el-image
               style="width: 120px; height: 100px"
               :src="scope.row.cover.images[0]"
-              :fit="contain">
+              fit="contain">
               <div slot="error">
                 <!-- 提醒加载失败的默认图片 -->
               <img src="../../assets/error.gif" width="120" height="100">
@@ -85,21 +85,27 @@
         <el-table-column prop="pubdate" label="发布时间" width="180"></el-table-column>
         <el-table-column label="操作" width="180">
           <el-row>
-  <el-button plain type="primary" icon="el-icon-edit" circle></el-button>
-  <el-button plain type="danger" icon="el-icon-delete" circle></el-button>
-</el-row>
+            <el-button plain type="primary" icon="el-icon-edit" circle></el-button>
+            <el-button plain type="danger" icon="el-icon-delete" circle></el-button>
+          </el-row>
         </el-table-column>
       </el-table>
+      <!-- 分页 -->
+      <!-- total 是总条数  每页默认显示20条 :page-size动态绑定每页显示的条数-->
+      <!-- current-page动态激活当前页码对应的按钮 -->
+      <!-- current-change 事件：当页码改变就执行 -->
       <el-pagination
         style="margin-top:10px"
         background
         layout="prev, pager, next"
-        :total="1000">
+        :total="total"
+        :page-size="reqParams.per_page"
+        :current-page="reqParams.page"
+        @current-change="pager">
       </el-pagination>
     </el-card>
   </div>
 </template>
-
 <script>
 // import PageOne from '@/test/page'
 export default {
@@ -135,6 +141,19 @@ export default {
       this.articles = data.results
       // 赋值文章总条数依赖数据
       this.total = data.total_count
+    },
+    // 分页功能
+    pager (newPage) {
+      // 根据新的页码和当前的筛选条件 重新查询数据即可
+      this.reqParams.page = newPage
+      this.getArticles()
+    },
+    // 筛选查询
+    search () {
+      // 准备日期数据
+      // 进行数据获取
+      this.reqParams.page = 1
+      this.getArticles()
     }
   },
   data () {
