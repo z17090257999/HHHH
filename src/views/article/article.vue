@@ -86,8 +86,8 @@
         </el-table-column>
         <el-table-column prop="pubdate" label="发布时间" width="180"></el-table-column>
         <el-table-column label="操作" width="180">
-          <el-row>
-            <el-button plain type="primary" icon="el-icon-edit" circle></el-button>
+          <el-row slot-scope="scope">
+            <el-button @click="toEdit(scope.row.id)" plain type="primary" icon="el-icon-edit" circle></el-button>
             <el-button plain type="danger" icon="el-icon-delete" circle></el-button>
           </el-row>
         </el-table-column>
@@ -171,6 +171,10 @@ export default {
       // 回到第一页
       this.reqParams.page = 1
       this.getArticles()
+    },
+    // 编辑
+    toEdit (id) {
+      this.$router.push({ path: '/publish', query: { id } })
     }
   },
   data () {
