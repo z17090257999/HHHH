@@ -19,7 +19,7 @@
         </el-form-item>
         <el-form-item label="频道">
           <template>
-            <el-select v-model="reqParams.channel_id" placeholder="请选择">
+            <el-select v-model="reqParams.channel_id" placeholder="请选择" clearable>
               <el-option
                 v-for="item in channelOptions"
                 :key="item.id"
@@ -166,6 +166,9 @@ export default {
     search () {
       // 准备日期数据
       // 进行数据获取
+      // 如果频道的值 ''的时候 修改为null
+      if (this.reqParams.channel_id === '') this.reqParams.channel_id = null
+      // 回到第一页
       this.reqParams.page = 1
       this.getArticles()
     }
