@@ -57,11 +57,11 @@
         <strong>共筛选到 0 条结果</strong>
       </div>
       <el-table :data="articles" style="width: 100%" :row-class-name="tableRowClassName">
-        <el-table-column prop="date" label="封面" width="180"></el-table-column>
-        <el-table-column prop="name" label="标题" width="180"></el-table-column>
-        <el-table-column prop="address" label="状态"></el-table-column>
-        <el-table-column prop="date" label="发布时间" width="180"></el-table-column>
-        <el-table-column prop="date" label="操作" width="180"></el-table-column>
+        <el-table-column prop="cover.images[0]" label="封面" width="180"></el-table-column>
+        <el-table-column prop="title" label="标题" width="180"></el-table-column>
+        <el-table-column prop="status" label="状态"></el-table-column>
+        <el-table-column prop="pubdate" label="发布时间" width="180"></el-table-column>
+        <el-table-column label="操作" width="180"></el-table-column>
       </el-table>
       <el-pagination
         style="margin-top:10px"
@@ -77,6 +77,11 @@
 // import PageOne from '@/test/page'
 export default {
   // components: { PageOne },
+  // 组件初始化
+  created () {
+    this.getChannelOptions()
+    this.getArticles()
+  },
   methods: {
     tableRowClassName ({ row, rowIndex }) {
       if (rowIndex === 1) {
@@ -91,6 +96,18 @@ export default {
       const { data: { data } } = await this.$http.get('channels')
       // 赋值频道下拉选项
       this.channelOptions = data.channels
+    },
+    // 获取文章列表
+    async getArticles () {
+      // axios.get(url?key=value&key1=value1&...)  get传参
+      // axios.get(url,{params:参数对象})
+      const {
+        data: { data }
+      } = await this.$http.get('articles', { params: this.reqParams })
+      // 赋值文章列表依赖数据
+      this.articles = data.results
+      // 赋值文章列表依赖数据
+      this.articles = data.results
     }
   },
   data () {
@@ -101,19 +118,18 @@ export default {
         status: null,
         channel_id: null,
         begin_pubdate: null,
-        end_pubdate: null
+        end_pubdate: null,
+        // 当前页码  每一页显示条数
+        page: 1,
+        per_page: 20
       },
       // 频道选项数据
-      channelOptions: [{ value: 1, label: 'shi' }],
+      channelOptions: [{ value: 1, label: '毛里求丝' }],
       // 日期数组
       dateArr: [],
       // 筛选结果数据  文章列表
       articles: []
     }
-  },
-  // 组件初始化
-  created () {
-    this.getChannelOptions()
   }
 }
 </script>
