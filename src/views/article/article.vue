@@ -73,9 +73,22 @@
           </template>
         </el-table-column>
         <el-table-column prop="title" label="标题" width="180"></el-table-column>
-        <el-table-column prop="status" label="状态"></el-table-column>
+        <el-table-column prop="status" label="状态">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.status===0" type="info">草稿</el-tag>
+            <el-tag v-if="scope.row.status===1">待审核</el-tag>
+            <el-tag v-if="scope.row.status===2" type="success">审核通过</el-tag>
+            <el-tag v-if="scope.row.status===3" type="warning">审核失败</el-tag>
+            <el-tag v-if="scope.row.status===4" type="danger">已删除</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="pubdate" label="发布时间" width="180"></el-table-column>
-        <el-table-column label="操作" width="180"></el-table-column>
+        <el-table-column label="操作" width="180">
+          <el-row>
+  <el-button plain type="primary" icon="el-icon-edit" circle></el-button>
+  <el-button plain type="danger" icon="el-icon-delete" circle></el-button>
+</el-row>
+        </el-table-column>
       </el-table>
       <el-pagination
         style="margin-top:10px"
