@@ -19,7 +19,8 @@
         </el-form-item>
         <el-form-item label="频道">
           <!-- 频道组件位置 -->
-          <my-channel></my-channel>
+          <!-- v-model本质：  绑定value属性  绑定了input事件 -->
+          <my-channel v-model="reqParams.channel_id"></my-channel>
         </el-form-item>
         <el-form-item label="日期">
           <!-- v-model 绑定的数组[起始时间,结束时间] -->
