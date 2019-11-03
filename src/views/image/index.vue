@@ -1,35 +1,39 @@
 <template>
-  <div class="container-image">
+  <div class='container-image'>
     <el-card>
-      <div slot="header">
+      <div slot='header'>
         <my-bread>素材管理</my-bread>
       </div>
-      <div class="btn_box">
+      <div class='btn_box'>
         <!-- 左边单选框 label是值 -->
-        <el-radio-group @change="toggleList" v-model="reqParams.collect" size="medium">
-          <el-radio-button :label="false">全部</el-radio-button>
-          <el-radio-button :label="true">收藏</el-radio-button>
+        <el-radio-group @change='toggleList' v-model='reqParams.collect' size='medium'>
+          <el-radio-button :label='false'>全部</el-radio-button>
+          <el-radio-button :label='true'>收藏</el-radio-button>
         </el-radio-group>
         <!-- 右边按钮 -->
-        <el-button style="float:right" type="success" size="medium">添加素材</el-button>
+        <el-button style='float:right' type='success' size='medium'>添加素材</el-button>
         <!-- 素材列表 -->
-        <div class="img_list">
-          <div class="img_itme" v-for="item in images" :key="item.id">
-            <img :src="item.url"/>
-            <div class="img_footer" v-if="!reqParams.collect">
-              <span @click="toggleStatus(item)" class="el-icon-star-off" :class="{red:item.is_collected}"></span>
-              <span class="el-icon-delete"></span>
+        <div class='img_list'>
+          <div class='img_itme' v-for='item in images' :key='item.id'>
+            <img :src='item.url' />
+            <div class='img_footer' v-if='!reqParams.collect'>
+              <span
+                @click='toggleStatus(item)'
+                class='el-icon-star-off'
+                :class='{red:item.is_collected}'
+              ></span>
+              <span @click='deleteImage(item.id)' class='el-icon-delete'></span>
             </div>
           </div>
         </div>
         <!-- 底部分页 -->
         <el-pagination
           background
-          layout="prev, pager, next"
-          :total="total"
-          :page-size="reqParams.per_page"
-          :current-page="reqParams.page"
-          @current-change="pager"
+          layout='prev, pager, next'
+          :total='total'
+          :page-size='reqParams.per_page'
+          :current-page='reqParams.page'
+          @current-change='pager'
         ></el-pagination>
       </div>
     </el-card>
@@ -76,14 +80,34 @@ export default {
     // 图片收藏方法
     async toggleStatus (item) {
       // 修改请求
-      const { data: { data } } = await this.$http.put(`user/images/${item.id}`, {
+      const {
+        data: { data }
+      } = await this.$http.put(`user/images/${item.id}`, {
         collect: !item.is_collected
       })
       // 成功后 修改样式
       item.is_collected = data.collect
+      // 提示
+      this.$message.success((data.collect ? '添加收藏' : '取消收藏') + '成功')
+    },
+    // 图片删除方法
+    async deleteImage (id) {
+      this.$confirm('此操作将永久删除该图片, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        // 点击删除
+        await this.$http.delete(`user/images/${id}`)
+        // 删除成功
+        this.$message.success('删除成功')
+        // 更新列表
+        this.getImages()
+      }).catch(() => {
+        // 点击取消
+      })
     }
   }
-
 }
 </script>
 
