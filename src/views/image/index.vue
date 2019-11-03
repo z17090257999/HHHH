@@ -17,7 +17,7 @@
           <div class="img_itme" v-for="item in images" :key="item.id">
             <img :src="item.url"/>
             <div class="img_footer" v-if="!reqParams.collect">
-              <span class="el-icon-star-off" :class="{red:item.is_collected}"></span>
+              <span @click="toggleStatus(item)" class="el-icon-star-off" :class="{red:item.is_collected}"></span>
               <span class="el-icon-delete"></span>
             </div>
           </div>
@@ -72,6 +72,15 @@ export default {
     toggleList () {
       this.reqParams.page = 1
       this.getImages()
+    },
+    // 图片收藏方法
+    async toggleStatus (item) {
+      // 修改请求
+      const { data: { data } } = await this.$http.put(`user/images/${item.id}`, {
+        collect: !item.is_collected
+      })
+      // 成功后 修改样式
+      item.is_collected = data.collect
     }
   }
 
