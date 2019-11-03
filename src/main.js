@@ -6,6 +6,8 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
+// 全局样式组件
+import '@/styles/index.less'
 
 // @是webpack指定的路径别名  @===“/src”
 import router from '@/router'

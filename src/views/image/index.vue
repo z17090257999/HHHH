@@ -11,7 +11,7 @@
           <el-radio-button :label='true'>收藏</el-radio-button>
         </el-radio-group>
         <!-- 右边按钮 -->
-        <el-button style='float:right' type='success' size='medium'>添加素材</el-button>
+        <el-button @click="open" style='float:right' type='success' size='medium'>添加素材</el-button>
         <!-- 素材列表 -->
         <div class='img_list'>
           <div class='img_itme' v-for='item in images' :key='item.id'>
@@ -37,10 +37,28 @@
         ></el-pagination>
       </div>
     </el-card>
+    <!-- 图片上传的对话框 -->
+    <el-dialog
+      title="添加素材"
+      :visible.sync="dialogVisible"
+      width="400px">
+      <!-- action 上传图片的接口地址 -->
+      <el-upload
+        class="avatar-uploader"
+        action="http://ttapi.research.itcast.cn/mp/v1_0/user/images"
+        :headers="headers"
+        name="image"
+        :show-file-list="false"
+        :on-success="handleSuccess">
+        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </el-upload>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     return {
@@ -53,7 +71,15 @@ export default {
       // 素材列表
       images: [],
       // 图片总数量
-      total: 0
+      total: 0,
+      // 对话框显示隐藏
+      dialogVisible: false,
+      // 上传成功后的图片地址
+      imageUrl: null,
+      // 上传的头
+      headers: {
+        Authorization: `Bearer ${local.getUser().token}`
+      }
     }
   },
   created () {
@@ -106,6 +132,24 @@ export default {
       }).catch(() => {
         // 点击取消
       })
+    },
+    // 上传图片成功
+    handleSuccess (res) {
+      // res 就是响应主体    获取图片地址 res.data.url
+      console.log(res)
+      // 给 imageUrl 赋值 进行预览
+      this.imageUrl = res.data.url
+      this.$message.success('上传成功')
+      // 两秒后关闭对话画框
+      window.setTimeout(() => {
+        //  关闭对话框  更新列表
+        this.dialogVisible = false
+        this.getImages()
+      }, 2000)
+    },
+    open () {
+      this.dialogVisible = true
+      this.imageUrl = null
     }
   }
 }
