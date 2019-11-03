@@ -6,9 +6,9 @@
       </div>
       <div class="btn_box">
         <!-- 左边单选框 label是值 -->
-        <el-radio-group v-model="reqParams.collect" size="medium">
-          <el-radio-button label="false">全部</el-radio-button>
-          <el-radio-button label="true">收藏</el-radio-button>
+        <el-radio-group @change="toggleList" v-model="reqParams.collect" size="medium">
+          <el-radio-button :label="false">全部</el-radio-button>
+          <el-radio-button :label="true">收藏</el-radio-button>
         </el-radio-group>
         <!-- 右边按钮 -->
         <el-button style="float:right" type="success" size="medium">添加素材</el-button>
@@ -16,7 +16,7 @@
         <div class="img_list">
           <div class="img_itme" v-for="item in images" :key="item.id">
             <img :src="item.url"/>
-            <div class="img_footer">
+            <div class="img_footer" v-if="!reqParams.collect">
               <span class="el-icon-star-off" :class="{red:item.is_collected}"></span>
               <span class="el-icon-delete"></span>
             </div>
@@ -66,6 +66,11 @@ export default {
     // 分页方法
     pager (newPage) {
       this.reqParams.page = newPage
+      this.getImages()
+    },
+    // 切换列表方法
+    toggleList () {
+      this.reqParams.page = 1
       this.getImages()
     }
   }
