@@ -9,6 +9,8 @@ import Welcome from '@/views/welcome'
 import NotFound from '@/views/404'
 // 组件与路由
 import Article from '@/views/article/article'
+// image组件
+import Image from '@/views/image'
 
 Vue.use(VueRouter)
 
@@ -35,6 +37,11 @@ const router = new VueRouter({
         {
           path: '/article',
           component: Article
+        },
+        // 素材管理
+        {
+          path: '/image',
+          component: Image
         }
       ]
     },
