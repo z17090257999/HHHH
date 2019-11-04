@@ -2,7 +2,7 @@
   <div class="my-image">
     <!-- 按钮 -->
     <div class="btn_box" @click="open">
-      <img src="../assets/default.png" alt="">
+      <img :src="value || btnImage" alt="">
     </div>
     <!-- 对话框 -->
     <el-dialog
@@ -35,13 +35,15 @@
     </el-tabs>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="confirmImage">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
+// import local from '@/utils/local'
+import defaultImage from '../assets/default.png'
 export default {
   data () {
     return {
@@ -61,7 +63,9 @@ export default {
       // 总条数
       total: 0,
       // 选中的图片地址
-      selectedImageUrl: null
+      selectedImageUrl: null,
+      // 按钮的图片
+      btnImage: defaultImage
     }
   },
   methods: {
@@ -90,8 +94,31 @@ export default {
     // 选中图片
     selectedImage (url) {
       this.selectedImageUrl = url
+    },
+    // 确认图片
+    confirmImage () {
+      // 判断素材库是否选择图片
+      if (this.activeName === 'image') {
+        if (!this.selectedImageUrl) {
+          return this.$message.warning('请选择一张图片')
+        }
+        // this.btnImage = this.selectedImageUrl
+        // 把数据提交给父组件
+        this.$emit('input', this.selectedImageUrl)
+        this.dialogVisible = false
+      } else {
+        if (!this.uploadImageUrl) {
+          return this.$message.warning('请上传一张图片')
+        }
+        // this.btnImage = this.uploadImageUrl
+        // 把数据提交给父组件
+        this.$emit('input', this.uploadImageUrl)
+        this.dialogVisible = false
+      }
     }
-  }
+  },
+  // 接收封面图片地址
+  props: ['value']
 }
 </script>
 
