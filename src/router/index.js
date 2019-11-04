@@ -11,6 +11,8 @@ import NotFound from '@/views/404'
 import Article from '@/views/article/article'
 // image组件
 import Image from '@/views/image'
+// 发布文章本组件
+import Publish from '@/views/publish'
 
 Vue.use(VueRouter)
 
@@ -42,6 +44,11 @@ const router = new VueRouter({
         {
           path: '/image',
           component: Image
+        },
+        // 发布文章
+        {
+          path: '/publish',
+          component: Publish
         }
       ]
     },

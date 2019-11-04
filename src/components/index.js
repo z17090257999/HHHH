@@ -2,10 +2,13 @@
 import MyBread from '@/components/my-bread'
 // 频道组件
 import MyChannel from '@/components/my-channel'
+// 图片组件
+import MyImage from '@/components/my-image'
 export default {
   install (Vue) {
     // Vue 是一个构造函数
     Vue.component('my-bread', MyBread)
     Vue.component('my-channel', MyChannel)
+    Vue.component('my-image', MyImage)
   }
 }

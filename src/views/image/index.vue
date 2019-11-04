@@ -87,6 +87,7 @@ export default {
     this.getImages()
   },
   methods: {
+    // 获取素材列表数据
     async getImages () {
       const { data: { data } } = await this.$http.get('user/images', { params: this.reqParams })
       this.images = data.results
