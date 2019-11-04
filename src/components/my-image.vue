@@ -17,7 +17,7 @@
         </el-radio-group>
         <!-- 列表 -->
         <div class='img_list'>
-          <div class='img_itme' v-for='item in images' :key='item.id'>
+          <div class='img_itme' :class="{selected: selectedImageUrl === item.url}" @click="selectedImage(item.url)" v-for='item in images' :key='item.id'>
             <img :src='item.url' />
           </div>
         </div>
@@ -59,7 +59,9 @@ export default {
       // 素材列表
       images: [],
       // 总条数
-      total: 0
+      total: 0,
+      // 选中的图片地址
+      selectedImageUrl: null
     }
   },
   methods: {
@@ -84,6 +86,10 @@ export default {
     toggleList () {
       this.reqParams.page = 1
       this.getImages()
+    },
+    // 选中图片
+    selectedImage (url) {
+      this.selectedImageUrl = url
     }
   }
 }
@@ -122,6 +128,16 @@ export default {
     img {
       width: 100%;
       height: 100%;
+    }
+    &.selected::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3) url(../assets/selected.png) no-repeat
+        center / 50px 50px;
     }
   }
 }
