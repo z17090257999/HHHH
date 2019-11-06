@@ -15,6 +15,8 @@ import Image from '@/views/image'
 import Publish from '@/views/publish'
 // 评论管理组件
 import Comment from '@/views/comment'
+// 个人设置组件
+import Setting from '@/views/setting'
 
 Vue.use(VueRouter)
 
@@ -56,6 +58,11 @@ const router = new VueRouter({
         {
           path: '/comment',
           component: Comment
+        },
+        // 个人设置
+        {
+          path: '/setting',
+          component: Setting
         }
       ]
     },
