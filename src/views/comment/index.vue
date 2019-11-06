@@ -16,8 +16,8 @@
         </el-table-column>
         <el-table-column label="操作" width="120px">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.comment_status" type="danger" size="small">关闭评论</el-button>
-            <el-button v-else type="success" size="small">打开评论</el-button>
+            <el-button @click="toggleStatus(scope.row.id,false)" v-if="scope.row.comment_status" type="danger" size="small">关闭评论</el-button>
+            <el-button @click="toggleStatus(scope.row.id,true)" v-else type="success" size="small">打开评论</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -63,6 +63,22 @@ export default {
     pager (newPage) {
       this.reqParams.page = newPage
       this.getArticles()
+    },
+    // 打开与关闭文章评论状态
+    toggleStatus (id, status) {
+      const text = status ? '是否打开评论' : '是否关闭评论'
+      this.$confirm(text, '警告！', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        // 确认打开
+        const { data: { data } } = await this.$http.put(`comments/status?article_id=${id}`, { allow_comment: status })
+        // 打开评论提示
+        this.$message.success(data.allow_comment ? '打开成功' : '关闭成功')
+        // 更新当前列表
+        this.getArticles()
+      }).catch(() => {})
     }
   }
 }

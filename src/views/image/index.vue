@@ -66,7 +66,7 @@ export default {
         // false 全部  true 收藏
         collect: false,
         page: 1,
-        per_page: 10
+        per_page: 40
       },
       // 素材列表
       images: [],
@@ -161,7 +161,7 @@ export default {
   margin-bottom: 20px;
   .img_itme {
     display: inline-block;
-    margin-right: 30px;
+    margin-right: 10px;
     margin-top: 20px;
     width: 150px;
     height: 150px;
